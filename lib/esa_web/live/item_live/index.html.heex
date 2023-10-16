@@ -1,0 +1,47 @@
+<.header>
+  Listing Items
+  <:actions>
+    <.link patch={~p"/items/new"}>
+      <.button>New Item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="items"
+  rows={@streams.items}
+  row_click={fn {_id, item} -> JS.navigate(~p"/items/#{item}") end}
+>
+  <:col :let={{_id, item}} label="Listed date"><%= item.listed_date %></:col>
+  <:col :let={{_id, item}} label="Listing link"><%= item.listing_link %></:col>
+  <:col :let={{_id, item}} label="Stock location"><%= item.stock_location %></:col>
+  <:col :let={{_id, item}} label="Item price"><%= item.item_price %></:col>
+  <:col :let={{_id, item}} label="Listing status"><%= item.listing_status %></:col>
+  <:col :let={{_id, item}} label="Sold gross"><%= item.sold_gross %></:col>
+  <:col :let={{_id, item}} label="Sold net"><%= item.sold_net %></:col>
+  <:action :let={{_id, item}}>
+    <div class="sr-only">
+      <.link navigate={~p"/items/#{item}"}>Show</.link>
+    </div>
+    <.link patch={~p"/items/#{item}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, item}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: item.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="item-modal" show on_cancel={JS.patch(~p"/items")}>
+  <.live_component
+    module={EsaWeb.ItemLive.FormComponent}
+    id={@item.id || :new}
+    title={@page_title}
+    action={@live_action}
+    item={@item}
+    patch={~p"/items"}
+  />
+</.modal>
