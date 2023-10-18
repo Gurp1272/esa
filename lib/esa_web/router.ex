@@ -19,11 +19,13 @@ defmodule EsaWeb.Router do
 
     get "/", PageController, :home
 
+    # Dashboard
+    live "/dashboard", DashboardLive.Index, :index
+
     # Items
     live "/items", ItemLive.Index, :index
     live "/items/new", ItemLive.Index, :new
     live "/items/:id/edit", ItemLive.Index, :edit
-
     live "/items/:id", ItemLive.Show, :show
     live "/items/:id/show/edit", ItemLive.Show, :edit
 
@@ -31,7 +33,6 @@ defmodule EsaWeb.Router do
     live "/lots", LotLive.Index, :index
     live "/lots/new", LotLive.Index, :new
     live "/lots/:id/edit", LotLive.Index, :edit
-
     live "/lots/:id", LotLive.Show, :show
     live "/lots/:id/show/edit", LotLive.Show, :edit
   end

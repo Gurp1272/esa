@@ -10,6 +10,7 @@ defmodule Esa.Repo.Migrations.CreateItems do
       add :listing_status, :string
       add :sold_gross, :float
       add :sold_net, :float
+      add :lot_id, references(:lots)
 
       timestamps(type: :utc_datetime)
     end

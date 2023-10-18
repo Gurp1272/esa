@@ -7,6 +7,7 @@ defmodule Esa.Lots.Lot do
     field :purchase_date, :date
     field :purchase_price, :float
     field :lot_description, :string
+    has_many :items, Esa.Items.Item
 
     timestamps(type: :utc_datetime)
   end
